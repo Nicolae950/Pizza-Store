@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Pizza Page";
+}
+
+<link rel="stylesheet" href="~/css/CheckoutIndexStyleSheet.css" asp-append-version="true" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<div class="text-center">
+    <div class="mainText">
+        <h1 class="display-4 text-capitalize text-black">Our great selection of pizzas!</h1>
+        <h4>Choose one pizza, or try our Pizza Builder! Then Order and Done!</h4>
+        <h4>No need to give any of your details!</h4>
+        <h4>We already know everything!</h4>
+        <p class="smallText"><i>Only one pizza per order.</i></p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-5 mt-5">
+                <div class="w-100 row greyDivPizzaIndex rounded-3">
+                    <div class="col-4">
+                        <img src="~/images/Pizzas/Create.png" class="w-100"/>
+                    </div>
+                    <div class="col-8 align-items-center">
+                        <div class="align-middle whiteTextPizzaIndex">
+                            <h3 style="text-align:left;">Create your own Pizza!</h3>
+                            <p style="text-align:left;">Make your own pizza with our pizza maker!</p>
+                            <a class="btn btn-primary" style="float:left;" asp-area="" asp-controller="Pizza" asp-action="Create">Create Your Own Pizza!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                let selectValue;
+                var pizza_data = [];
+            </script>
+
+            @foreach (var pizza in Model)
+            {
+                var imagePath = "/images/Patterns/" + (pizza.Name + ".png");
+                <div class="col-4 mb-5">
+                    <div class="rounded-3 greyBackgroundPizzas">
+                        <div class="pt-2">
+                            <img src="@imagePath" class="w-75 p-1 rounded-circle" />
+                            <p class="text-white mt-0 mb-0">@pizza.Name</p>
+                        </div>
+                        <div class="dropdown-center pt-2 pb-2 ps-5 pe-5">
+                            <select id="select-nr-slice-@pizza.Name" class="form-select" runat="server">
+                                <option value="4" >Small Pizza (4 slices) &#8960 30cm</option>
+                                <option value="6" selected >Medium Pizza (6 slices) &#8960 40cm</option>
+                                <option value="8" >Big Pizza (8 slices) &#8960 50cm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <a id="get-btn-@pizza.Name" class="btn btn-secondary" asp-controller="Pizza" asp-action="GetPizzaWithoutEditing" asp-route-id="@pizza.Id" asp-route-numberOfSlices="6">Get this pizza</a>
+                        <a id="modify-btn-@pizza.Name" class="btn btn-secondary" asp-controller="Pizza" asp-action="Custom" asp-route-id="@pizza.Id" >Customize this pizza </a>
+                    </div>
+                    <script>
+                        document.getElementById('modify-btn-@pizza.Name').addEventListener('click', function (e) {
+                            e.preventDefault();
+                            selectValue = document.getElementById('select-nr-slice-@pizza.Name').value;
+                            sessionStorage.setItem('editpizzainfo', JSON.stringify([selectValue, @pizza.Id]));
+                            window.location.href = "Pizza/Custom/@pizza.Id";
+                        });
+                        pizza_data.push({ pizza_id: @pizza.Id, pizza_name: "@pizza.Name"});
+                        document.getElementById('select-nr-slice-@pizza.Name').addEventListener('change',function(){
+                            document.getElementById('get-btn-@pizza.Name').setAttribute("href", "/Pizza/GetPizzaWithoutEditing/@pizza.Id?numberOfSlices=" + document.getElementById('select-nr-slice-@pizza.Name').value);
+                        });
+                    </script>
+                </div>
+            }
+            <script>
+                window.sessionStorage.setItem('pizzas', JSON.stringify(pizza_data));
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/GlobalVariables.js" asp-append-version="true"></script>

@@ -1,0 +1,160 @@
+﻿@model CheckoutProductAndCartHelper
+@{
+    ViewData["Title"] = "Check Out";
+    List<CartHelper> Products = (List<CartHelper>)Model.CartProducts;
+    var Total_Price = 0D;
+    foreach (var product in Products)
+    {
+        Total_Price += (product.Amount * product.Price);
+    }
+    IEnumerable<Product> Sauces = Model.Saucages;
+}
+<link rel="stylesheet" href="~/css/CheckoutIndexStyleSheet.css" asp-append-version="true" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#getPizzaBtnCheckout").click(function () {
+            SavePizzaProducts();
+        });
+    });
+
+    function SavePizzaProducts(){
+        var listOfPizzaProducts = new Array();
+        $("#checkouttable").find("tr:gt(0)").not(":last").each(function () {
+            var hiddenId = "#" + "productId" + (listOfPizzaProducts.length + 1);
+            var Id = $(hiddenId).val();
+
+            var Name = $(this).find("td:eq(2)").text();
+            Name = Name.trim();
+
+            var Amount = $(this).find("td:eq(3)").text();
+            Amount = RemoveTextSurplus(Amount,'x');
+
+            var Price = $(this).find("td:eq(4)").text();
+            Price = RemoveTextSurplus(Price,"lei");
+
+            var Weight = $(this).find("td:eq(5)").text();
+            Weight = RemoveTextSurplus(Weight,'g');
+
+            var cartHelperRecord = {};
+            cartHelperRecord.Id = Id;
+            cartHelperRecord.Name = Name;
+            cartHelperRecord.Amount = Amount;
+            cartHelperRecord.Price = Price;
+            cartHelperRecord.Weight = Weight;
+
+            alert(cartHelperRecord.Id + " " + cartHelperRecord.Name + " " + cartHelperRecord.Amount + " " + cartHelperRecord.Price + " " + cartHelperRecord.Weight);
+
+            listOfPizzaProducts.push(cartHelperRecord);
+        });
+
+        $.post('@Url.Action("Index")', { listOfPizzaProducts : listOfPizzaProducts},
+            function(returnURL) {
+                window.location = returnURL;
+            });
+    }
+
+    function RemoveTextSurplus(text, textToRemove ){
+        var changedText = text.trim().replace(textToRemove,'');
+        return changedText;
+    }
+</script>
+
+<div class="text-center pt-3">
+    <h3> Product List </h3>
+    <hr class="ms-5 me-5"/>
+</div>
+<div class="ps-5 pe-5 text-center">
+    <form method="post">
+        <div class="container">
+            <div class="row col-12">
+                <div class="col-sm-8">
+                    <table id="checkouttable" style="width:100%;">
+                        <tr>
+                            <td class="border"> <h3> Nr. order </h3> </td>
+                            <td class="border"> </td>
+                            <td class="border"> <h5> Name </h5> </td>
+                            <td class="border"> <h5> Amount </h5> </td>
+                            <td class="border"> <h5> Price </h5> </td>
+                            <td class="border"> <h5> Weight </h5> </td>
+                            <td class="border"> <h5> Total </h5> </td>
+                        </tr>
+                        @for (int i = 0; i < Products.Count(); ++i)
+                        {
+                            <tr>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <h3>@(i + 1)</h3>
+                                </td>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <div>
+                                        <svg viewBox="150 0 150 150" class="svgSizeCheckout">
+                                            <defs>
+                                                <pattern id="image-bg-bolognese" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Bolognese.png"></image></pattern>
+                                                <pattern id="image-bg-carbonara" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Carbonara.png"></image></pattern>
+                                                <pattern id="image-bg-hawaiian" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Hawaiian.png"></image></pattern>
+                                                <pattern id="image-bg-margerita" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Margerita.png"></image></pattern>
+                                                <pattern id="image-bg-meatfeast" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/MeatFeast.png"></image></pattern>
+                                                <pattern id="image-bg-mushroom" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Mushroom.png"></image></pattern>
+                                                <pattern id="image-bg-pepperoni" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Pepperoni.png"></image></pattern>
+                                                <pattern id="image-bg-seafood" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Seafood.png"></image></pattern>
+                                                <pattern id="image-bg-vegetarian" patternUnits="userSpaceOnUse" x="0" y="0" width="300" height="300"><image width="300" height="300" xlink:href="/images/Patterns/Vegetarian.png"></image></pattern>
+                                            </defs>
+                                            <path stroke="rgb(170,170,170)" fill="url(#image-bg-@Products[i].Name.ToLower()" d="M 150.76 0.764 C 232.264 1.576 298.252 67.12 299.485 148.484 L 151.518 148.484 L 151.518 0.007" />
+                                        </svg>
+                                    </div>
+                                </td>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <h5>@Products[i].Name</h5>
+                                    <input type="hidden" value="@Products[i].Id" id="@("productId" + (i + 1).ToString())" />
+                                </td>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <h5>x @Products[i].Amount</h5>
+                                </td>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <h5>@Products[i].Price lei</h5>
+                                </td>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <h5>@Products[i].Weight g</h5>
+                                </td>
+                                <td class="border-bottom pt-2 pb-2">
+                                    <h5>@(Products[i].Amount * Products[i].Price) lei</h5>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="border-top"> </td>
+                            <td class="border-top"> </td>
+                            <td class="border-top"> </td>
+                            <td class="border-top"> </td>
+                            <td class="border-top"> </td>
+                            <td class="border-top"> </td>
+                            <td class="border-top pt-2 pb-2"> <h5 id="totalprice">@Total_Price lei</h5> </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-sm-1 pb-3">
+                    <div class="vr" style="height:100%; width:1px;"></div>
+                </div>
+                <div class="col-sm-3" id="sauces">
+                    <table style="width:100%;">
+                        @{
+                            int sauce_index = 0;
+                            foreach (var sauce in Sauces)
+                            {
+                                <tr>
+                                    <td class="border-bottom pt-2 pb-2"><input onclick="AddSauceInList(this)" class="form-check-input" type="checkbox" id="@sauce.Name.ToLower()sauce" name="@sauce.Name.ToLower()" value="@sauce.Id @sauce.Name 1 @sauce.Price @sauce.Weight @sauce.Price" /></td>
+                                    <td class="border-bottom pt-2 pb-2"><label for="@sauce.Name.ToLower()+sauce"> @sauce.Name Sauce </label></td>
+                                </tr>
+                                sauce_index++;
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <input type="button" value="Get Pizza" name="GetPizza" id="getPizzaBtnCheckout" class="btn btn-secondary ps-5 pe-5" />
+    </form>
+</div>
+<script src="~/js/CheckOutLister.js" asp-append-version="true"></script>

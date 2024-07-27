@@ -1,0 +1,13 @@
+﻿
+.svgSizeCheckout{
+    width: 50.11px;
+    height: 50.19px;
+}
+
+.horizontalAlign{
+    display: inline-flex;
+}
+
+div#sauces tr:hover {
+    background-color:lemonchiffon;
+}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\colit\\source\\repos\\PizzaStore\\PizzaStore\\PizzaStore.csproj": {}
+    "C:\\Users\\colit\\source\\own-work\\Pizza-Store\\PizzaStore\\PizzaStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\colit\\source\\repos\\PizzaStore\\PizzaStore\\PizzaStore.csproj": {
+    "C:\\Users\\colit\\source\\own-work\\Pizza-Store\\PizzaStore\\PizzaStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\colit\\source\\repos\\PizzaStore\\PizzaStore\\PizzaStore.csproj",
+        "projectUniqueName": "C:\\Users\\colit\\source\\own-work\\Pizza-Store\\PizzaStore\\PizzaStore.csproj",
         "projectName": "PizzaStore",
-        "projectPath": "C:\\Users\\colit\\source\\repos\\PizzaStore\\PizzaStore\\PizzaStore.csproj",
+        "projectPath": "C:\\Users\\colit\\source\\own-work\\Pizza-Store\\PizzaStore\\PizzaStore.csproj",
         "packagesPath": "C:\\Users\\colit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\colit\\source\\repos\\PizzaStore\\PizzaStore\\obj\\",
+        "outputPath": "C:\\Users\\colit\\source\\own-work\\Pizza-Store\\PizzaStore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\colit\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,7 +35,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net6.0": {
@@ -70,6 +77,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -78,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PizzaStore.Models;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace PizzaStore.Controllers
 {

@@ -1,4 +1,6 @@
-﻿namespace PizzaStore.Models
+﻿using System.Collections.Generic;
+
+namespace PizzaStore.Models
 {
     public class PizzaHelper
     {

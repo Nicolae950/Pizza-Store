@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using PizzaStore.Data;
+
+namespace PizzaStore;
 
 internal class Program
 {
@@ -15,7 +13,7 @@ internal class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")
-            ));
+        ));
 
         var app = builder.Build();
 

@@ -1,4 +1,4 @@
-namespace Domain.Abstractions;
+namespace Domain.Base;
 
 public interface IFullAuditEntity<TKey> : IAuditEntity<TKey>
 {

@@ -1,4 +1,4 @@
-namespace Domain.Abstractions;
+namespace Domain.Base;
 
 public abstract class FullAuditEntity<TKey> : AuditEntity<TKey>, IFullAuditEntity<TKey>
 {

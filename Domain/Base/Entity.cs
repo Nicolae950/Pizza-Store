@@ -1,4 +1,4 @@
-namespace Domain.Abstractions;
+namespace Domain.Base;
 
 public abstract class Entity<TKey> : IEntity<TKey>
 {
